@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-6, col-lg-6 col-xl-6">
+
+        </div>
+        <div class="col-12 col-sm-12 col-md-6, col-lg-6 col-xl-6">
+            <form [formGroup]="filterForm">
+                <div class="mb-3">
+                  <label for="keys" class="form-label">Filter Keys</label>
+                  <select class="form-select" aria-label="Default select example" formControlName="filterkey">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="values" class="form-label">Value</label>
+                  <input type="text" class="form-control" id="values" formControlName="filtervalue">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+              </form>
+        </div>
+    </div>
+</div>
