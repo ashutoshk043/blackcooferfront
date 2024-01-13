@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { VisualComponent } from './visual/visual.component';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http'
+import { HighchartsChartModule } from 'highcharts-angular';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import {HttpClientModule} from '@angular/common/http'
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

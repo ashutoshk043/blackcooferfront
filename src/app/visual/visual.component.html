@@ -1,10 +1,15 @@
 <div class="container">
+  <div class="container p-5">
+    <h2>Data Visualization For BlackCoofer</h2>
+  </div>
     <div class="row">
+        
         <div class="col-12 col-sm-12 col-md-6, col-lg-6 col-xl-6">
-
-        </div>
-        <div class="col-12 col-sm-12 col-md-6, col-lg-6 col-xl-6">
-            <form [formGroup]="filterForm">
+          
+          <form [formGroup]="filterForm" (ngSubmit)="submitFilter()">
+            <div formArrayName="filters">
+              <div *ngFor="let field of filterForm.get('filters').controls; let i=index" [formGroupName]="i">
+                <!-- Your form control fields here -->
                 <div class="mb-3">
                   <label for="keys" class="form-label">Filter Keys</label>
                   <select class="form-select" aria-label="Default select example" formControlName="filterkey">
@@ -18,8 +23,17 @@
                   <label for="values" class="form-label">Value</label>
                   <input type="text" class="form-control" id="values" formControlName="filtervalue">
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Filter</button>
-              </form>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-50" [disabled]="!filterForm.valid">Filter</button><button class="btn btn-danger w-50" [disabled]="!filterForm.valid" (click)="addFilter()">Add More Filter</button>
+          </form>
+          
         </div>
+
+        <div class="col-12 col-sm-12 col-md-6, col-lg-6 col-xl-6">
+          <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
+            style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+        </div>
+
     </div>
 </div>
