@@ -2,7 +2,13 @@ import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, Validators, FormGroup,FormArray, } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import Highcharts from 'highcharts/es-modules/masters/highcharts.src';
+// import Highcharts from 'highcharts/es-modules/masters/highcharts.src';
+import * as Highcharts from 'highcharts';
+import HighchartsMore from 'highcharts/highcharts-more';
+import HighchartsSolidGauge from 'highcharts/modules/solid-gauge';
+
+HighchartsMore(Highcharts);
+HighchartsSolidGauge(Highcharts);
 
 @Component({
   selector: 'app-visual',
@@ -13,13 +19,7 @@ export class VisualComponent {
 
   filterForm:any = FormBuilder
   allRecords:any
-  Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = {
-    series: [{
-      data: [1, 2, 3],
-      type: 'column'
-    }]
-  };
+  allFilters:any = [{dbName:'end_year', showName:'End Year'}, {dbName:'topic', showName:"Topic"}, {dbName:'sector',showName:"Sector" }, {dbName:"region", showName:"Region"}, {dbName:"pestle", showName:"Pestle"}, {dbName:'source', showName:"Source"}, {dbName:'country', showName:"Country"}, {dbName:"likelihood", showName:"Likelihood"}]
 
   constructor(
     private fb:FormBuilder,
@@ -27,7 +27,6 @@ export class VisualComponent {
     ){}
 
     ngOnInit() {
-      console.log(environment.apiUrl)
       this.filterFormData();
       this.getAllRecords();
     }
@@ -53,21 +52,79 @@ export class VisualComponent {
     }
 
   submitFilter() {
-    console.log(this.filterForm.value.filters, "data iss")
-    // this.http.get('').subscribe({
-
-    // })
+    this.http.post(`${environment.apiUrl}/getallfilterValues`, this.filterForm.value.filters).subscribe({
+      next:(res:any)=>{
+        this.allRecords = []
+        this.allRecords = res.message
+        this.createChartColumn()
+      }
+    })
   }
 
   getAllRecords(){
     this.http.get(`${environment.apiUrl}/getallData`).subscribe({
       next:(res:any)=>{
         this.allRecords = res.message
+        this.createChartColumn()
+
       },
       error:(error:any)=>{
         console.log(error)
       }
     })
+  }
+
+
+
+  private createChartColumn(): void {
+    let allDatas = this.allRecords
+    const data: any[] = [];
+
+    for (let i = 0; i < allDatas.length; i++) {
+      data.push({
+        name: allDatas[i].intensity,
+        y: allDatas[i].likelihood,
+      });
+    }
+
+    const chart = Highcharts.chart('chart-column' as any, {
+      chart: {
+        type: 'column',
+      },
+      title: {
+        text: 'BlackCoofer Visualization',
+      },
+      credits: {
+        enabled: false,
+      },
+      legend: {
+        enabled: true,
+      },
+      yAxis: {
+        min: 0,
+        title: "Likelihood",
+      },
+      xAxis: {
+        type: 'category',
+      },
+      tooltip: {
+        headerFormat: `<div>Intensity: {point.key}</div>`,
+        pointFormat: `<div>Likelihood: {point.y}</div>`,
+        shared: true,
+        useHTML: true,
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true,
+          },
+        },
+      },
+      series: [{
+        name: 'Intensity',
+        data,
+      }],
+    } as any);
   }
 
 }

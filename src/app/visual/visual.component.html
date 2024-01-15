@@ -14,9 +14,7 @@
                   <label for="keys" class="form-label">Filter Keys</label>
                   <select class="form-select" aria-label="Default select example" formControlName="filterkey">
                     <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option *ngFor="let value of allFilters" value={{value.dbName}}>{{value.showName}}</option> 
                   </select>
                 </div>
                 <div class="mb-3">
@@ -31,8 +29,8 @@
         </div>
 
         <div class="col-12 col-sm-12 col-md-6, col-lg-6 col-xl-6">
-          <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions"
-            style="width: 100%; height: 400px; display: block;"></highcharts-chart>
+          <div id="chart-column"></div>
+          <div>Total Values: {{allRecords?.length}}</div>
         </div>
 
     </div>
