@@ -82,8 +82,8 @@ export class VisualComponent {
 
     for (let i = 0; i < allDatas.length; i++) {
       data.push({
-        name: allDatas[i].intensity,
-        y: allDatas[i].likelihood,
+        name: allDatas[i].likelihood,
+        y: allDatas[i].intensity,
       });
     }
 
@@ -108,8 +108,8 @@ export class VisualComponent {
         type: 'category',
       },
       tooltip: {
-        headerFormat: `<div>Intensity: {point.key}</div>`,
-        pointFormat: `<div>Likelihood: {point.y}</div>`,
+        headerFormat: `<div>Likelihood: {point.y}</div>`,
+        pointFormat: `<div>Intencity:{point.key}</div>`,
         shared: true,
         useHTML: true,
       },
